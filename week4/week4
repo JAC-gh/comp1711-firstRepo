@@ -1,0 +1,36 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int StarterAct(){
+    char filename[] = "input.txt";
+    FILE* file = fopen("input.txt","r+");
+    if (file == NULL){
+        printf("Error");
+        return 1;
+    }
+    char fileOut[200];
+    int numList[200], i = 0, count = 0;
+    while (fgets(fileOut, 200, file) != NULL){
+        printf("%s", fileOut);
+        numList[i] = atoi(fileOut);
+        if (atoi(fileOut) > 1000){
+            count++;
+        }
+        i++;
+    }
+    printf("%i\n", count);
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+void main(){
+    StarterAct();
+}
