@@ -1,0 +1,20 @@
+1. reading
+2. struct reading today;
+3. reading thisWeek[7];
+
+
+int main(){
+
+struct reading today;
+printf("Enter todays date: ");
+scanf("%s", today.date);
+printf("Enter blood iron: ");
+scanf("%f", today.bloodIron);
+
+for (i = 0; i < 7; i++){
+	printf("Enter the date of the entry :");
+	scanf("%s", thisWeek[i].date);
+	printf("Enter the blood iron level for the entry: ");
+	scanf("%f", thisWeek[i].bloodIron);
+	}
+}
