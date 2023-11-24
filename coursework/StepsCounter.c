@@ -48,7 +48,7 @@ int main() {
     char userChoice;
     int i=0, totalSteps=0, indexOfLowest=0, indexOfMax=0, meanSteps;
     int max500, current500, max500Start, current500Start, max500End;
-    char filename[20], fileOut[50], dateOfSteps[11], timeOfSteps[6], noOfSteps[7];
+    char filename[25], fileOut[50], dateOfSteps[11], timeOfSteps[6], noOfSteps[7];
     //loops forever until user exits through Q or code forced to quit
     while (1){
         //displays menu options
@@ -144,6 +144,7 @@ int main() {
                 break;
             case 'Q':
                 //exits program and returns 0
+                fclose(fileCheck);
                 return 0;
             default:
                 //prints 'error' message if user input not between A-F or Q and reoutputs menu
