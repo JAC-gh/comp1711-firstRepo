@@ -69,17 +69,6 @@ int main() {
         //switch statement based on user input
         switch (userChoice){
             case 'A':
-                i = 0;
-                totalSteps = 0;
-                indexOfLowest = 0;
-                indexOfMax = 0;
-                meanSteps = 0;
-                max500 = 0;
-                current500 = 0;
-                max500Start = 0;
-                current500Start = 0;
-                max500End = 0;
-                
                 //tries to open file using name input by user
                 printf("Input filename: ");
                 scanf("%s", filename);
