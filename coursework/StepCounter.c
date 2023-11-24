@@ -49,6 +49,7 @@ int main() {
     int i=0, totalSteps=0, indexOfLowest=0, indexOfMax=0, meanSteps;
     int max500, current500, max500Start, current500Start, max500End;
     char filename[25], fileOut[50], dateOfSteps[11], timeOfSteps[6], noOfSteps[7];
+    FILE *fileCheck;
     //loops forever until user exits through Q or code forced to quit
     while (1){
         //displays menu options
@@ -68,6 +69,16 @@ int main() {
         //switch statement based on user input
         switch (userChoice){
             case 'A':
+                i = 0;
+                totalSteps = 0;
+                indexOfLowest = 0;
+                indexOfMax = 0;
+                meanSteps = 0;
+                max500 = 0;
+                current500 = 0;
+                max500Start = 0;
+                current500Start = 0;
+                max500End = 0;
                 //tries to open file using name input by user
                 printf("Input filename: ");
                 scanf("%s", filename);
@@ -116,6 +127,7 @@ int main() {
                     //updates record count
                     i++;
                 }
+                fclose(fileCheck);
                 //calculates mean steps
                 meanSteps = round(totalSteps/i);
                 //holds index of the last record in the longest 500+ streak
@@ -144,7 +156,6 @@ int main() {
                 break;
             case 'Q':
                 //exits program and returns 0
-                fclose(fileCheck);
                 return 0;
             default:
                 //prints 'error' message if user input not between A-F or Q and reoutputs menu
