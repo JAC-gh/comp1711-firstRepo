@@ -28,28 +28,33 @@ void tokeniseRecord(char *record, char delimiter, char *date, char *time, int *s
 
 
 int main() {
-
-    int i = 0, noOfSteps, j;
+    //initialise variables + arrays
     FitnessData data[200];
-    char dateOfSteps[11], timeOfSteps[6], fileOut[50], filename[35];
-
+    int i = 0, noOfSteps, j, tempSteps;
+    char dateOfSteps[11], timeOfSteps[6], fileOut[50], filename[35], tempDate[11], tempTime[6];
+    bool swapMade = true;
+    //take user input as filename and open file
     printf("Enter Filename: ");
     scanf("%s", filename);
     FILE *csvFile = fopen(filename, "r");
+    //throw error if file not found
     if (csvFile == NULL){
         printf("Error: invalid file\n");
         return 1;
     }
+    //read data from file into an array
     while (fgets(fileOut, 50, csvFile) != NULL){
+        //set values as "NULL" until overwritten, allows check for correct number of elements
         strcpy(dateOfSteps, "NULL");
         strcpy(timeOfSteps, "NULL");
         noOfSteps = -1;
         tokeniseRecord(fileOut, ',', dateOfSteps, timeOfSteps, &noOfSteps);
+        //putting data into the array
         strcpy(data[i].date, dateOfSteps);
         strcpy(data[i].time, timeOfSteps);
         data[i].steps = noOfSteps;
 
-        //xxxx-xx-xx
+        //check that date is in xxxx-xx-xx format, with x being from 0-9
         if (strlen(dateOfSteps) == 10){
             for (j = 0; j < 10; j++){
                 if ((0 <= j <= 3) || (5 <= j <= 6) || (8 <= j <= 9)){
@@ -65,18 +70,20 @@ int main() {
                         case '8':
                         case '9':
                             continue;
+                        //value considered invalid if not between 0-9
                         default:
                             strcpy(dateOfSteps, "NULL");
                             break;
                     }   
                 }
+                //checks for hyphens in format
                 if ((j == 4) || (j == 7)){
                     if (dateOfSteps[j] != '-'){
                         strcpy(dateOfSteps, "NULL");
                     }
                 }
             }
-
+            //checks for xx:xx format, with x being between 0-9
             if (strlen(timeOfSteps) == 5){
                 for (j = 0; j < 5; j++){
                     if ((0 <= j <= 1) || (3 <= j <= 4)){
@@ -93,11 +100,12 @@ int main() {
                             case '9':
                                 continue;
                             default:
+                            //time considered invalid if chracters not between 0-9
                                 strcpy(timeOfSteps, "NULL");
                                 break;
                         }
                     }
-
+                    //checks for colon in time format
                     if (j == 2){
                         if (timeOfSteps[j] != ':'){
                             strcpy(timeOfSteps, "NULL");
@@ -105,7 +113,7 @@ int main() {
                     }
                 }
             }
-            //credit tom wood
+            //returns error if any data is considered invalid
             if ((dateOfSteps == "NULL") || (timeOfSteps == "NULL") || (noOfSteps == -1)){
                 printf("Error: invalid file\n");
                 return 1;
@@ -113,11 +121,11 @@ int main() {
             i++;
         }
     }
+
+    //closes first data file
     fclose(csvFile);
 
-    bool swapMade = true;
-    char tempDate[11], tempTime[6];
-    int tempSteps;
+    //bubble sort to descending order of steps
     while (swapMade == true){
         swapMade = false;
         for (j = 0; j < i-1; j++){
@@ -138,12 +146,15 @@ int main() {
             }
         }
     }
-    //write to new file (tsv)
+    //adds .tsv extension to old filename
     strcat(filename, ".tsv");
+    //creates tsv file open for writing
     FILE *tsvFile = fopen(filename, "w");
+    //loops through data array and outputs each record to a line in the .tsv file
     for (j = 0; j < i; j++){
         fprintf(tsvFile, "%s\t%s\t%d\n", data[j].date, data[j].time, data[j].steps);
     }
+    //closes .tsv file and exits correctly
     fclose(tsvFile);
-
+    return 0;
 }
